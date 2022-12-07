@@ -1,0 +1,133 @@
+class one():
+    def create(self,j):
+        self.f=open(r"C:\Users\ashin\Desktop\list.doc","w",)
+        self.j=j
+        self.f.write(j)
+        self.f.write('\n')
+        self.f.close()
+class two():
+    def appan(self,w):
+        self.f=open(r"C:\Users\ashin\Desktop\list.doc","a")
+        self.w=w
+        self.f.write(w)
+        self.f.write('\n')
+        self.f.close()
+class child(one):
+    def __init__(self,j):
+        super().__init__()
+        self.j=j
+        one.create(self,j)
+
+class child2(two):
+    def __init__(self, w):
+        super().__init__()
+        self.w = w
+        two.appan(self, w)
+
+def tuplemaker(name,roll,mark1,mark2,total):
+    mark1=str(mark1)
+    mark2=str(mark2)
+    total=str(total)
+    tup=(name,roll,mark1,mark2,total)
+    return(tup)
+
+def edit(tup,u,li):
+    lis=list(tup)
+    print("What do u want to edit:")
+    print("1.name")
+    print("2.roll number")
+    print("3.mark1")
+    print("4.mark2")
+    i=int(input("Enter the number of the option you want to change:"))
+    if i==1:
+        name=input("Enter new name:")
+        lis[0]=name
+    elif i==2:
+        roll=input("Enter new roll:")
+        lis[1]=roll
+    elif i==3:
+        mark1=float(input("Enter new mark 1:"))
+        total=mark1+float(lis[3])
+        lis[4]=total
+        lis[2]=mark1
+    elif i==4:
+        mark2=float(input("Enter new mark 2:"))
+        total=mark2+float(lis[2])
+        lis[4]=total
+        lis[3]=mark2
+    newtup=tuple(lis)
+    print(newtup)
+    return(surecheck(newtup,u,li))
+
+def sure(tup,u,lis):
+    i = input("do u wanna edit the entry(yes/no):")
+    if i == "yes":
+        edit(tup,u,lis)
+    elif (i == "no"):
+        print("your entries are:")
+        k=1
+        lis.append(tup)
+        for a in range(0,u):
+            print(k,"-",lis[a])
+            m=str(lis[a])
+            if a==0:
+                obj=child(m)
+            else:
+                obj=child2(m)
+            k=k+1
+
+def entryfinder(lis,u):
+    i = input("do u want to edit (yes/no):")
+    if i == "yes":
+        i=int(input("Which entry do u want to change(enter the entry number to edit):"))
+        i=i-1
+        a=lis[i]
+        lis.remove(a)
+        print(a)
+        return(sure(a,u,lis))
+    elif i=="no":
+        print("your entries are:")
+        k = 1
+        for a in range(0,u):
+            print(k,"-",lis[a])
+            m=str(lis[a])
+            if a==0:
+                obj=child(m)
+            else:
+                obj=child2(m)
+            k=k+1
+
+def surecheck(newtup,u,li):
+    i=input("do u want to edit again(yes/no):")
+    if i=="yes":
+        li.append(newtup)
+        entryfinder(li,u)
+    elif i=="no":
+        print("your entries are:")
+        k = 1
+        lis.append(newtup)
+        for a in range(0,u):
+            print(k,"-",lis[a])
+            m=str(lis[a])
+            if a==0:
+                obj=child(m)
+            else:
+                obj=child2(m)
+            k=k+1
+
+i=int(input("How many entries do you have:"))
+k=0
+lis=[]
+for m in range(0,i):
+    k = k + 1
+    print("Entry number:",k)
+    name=input("Enter Name:")
+    roll=input("Enter Roll Number:")
+    mark1=float(input("Enter Mark 1:"))
+    mark2=float(input("Enter Mark 2:"))
+    total=mark1+mark2
+    print("Total Mark:",total)
+    a=tuplemaker(name, roll, mark1, mark2, total)
+    lis.append(a)
+    print(a)
+entryfinder(lis,i)
